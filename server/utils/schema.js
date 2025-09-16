@@ -1,26 +1,27 @@
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase.js';
+import { hashPassword } from '../middleware/auth.js';
 
 // Database schema initialization and validation
 export class DatabaseSchema {
-  
+
   // Initialize default collections with sample data
   static async initializeSchema() {
     try {
       console.log('🔄 Initializing database schema...');
-      
+
       // Initialize admin user
       await this.initializeAdminUser();
-      
+
       // Initialize sample ULB
       await this.initializeSampleULB();
-      
+
       // Initialize waste segregation guidelines
       await this.initializeWasteGuidelines();
-      
+
       // Initialize sample facilities
       await this.initializeSampleFacilities();
-      
+
       console.log('✅ Database schema initialized successfully');
     } catch (error) {
       console.error('❌ Error initializing schema:', error);
@@ -30,23 +31,31 @@ export class DatabaseSchema {
 
   // Initialize admin user
   static async initializeAdminUser() {
-    const adminData = {
-      email: 'admin@wastems.com',
-      password: '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // admin123
-      role: 'admin',
-      name: 'System Administrator',
-      isActive: true,
-      permissions: ['all'],
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
     const adminRef = doc(db, 'users', 'admin');
     const adminDoc = await getDoc(adminRef);
-    
+
     if (!adminDoc.exists()) {
+      const hashed = await hashPassword('admin123');
+      const adminData = {
+        email: 'admin@wastems.com',
+        password: hashed,
+        role: 'admin',
+        name: 'System Administrator',
+        isActive: true,
+        permissions: ['all'],
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
       await setDoc(adminRef, adminData);
       console.log('✅ Admin user created');
+    } else {
+      // Optional: reset password if flagged
+      const shouldReset = process.env.ADMIN_RESET_PASSWORD === 'true';
+      if (shouldReset) {
+        const hashed = await hashPassword('admin123');
+        await updateDoc(adminRef, { password: hashed, updatedAt: new Date() });
+        console.log('🔐 Admin password reset to default');
+      }
     }
   }
 
@@ -89,7 +98,7 @@ export class DatabaseSchema {
 
     const ulbRef = doc(db, 'ulbs', 'MMC001');
     const ulbDoc = await getDoc(ulbRef);
-    
+
     if (!ulbDoc.exists()) {
       await setDoc(ulbRef, ulbData);
       console.log('✅ Sample ULB created');
@@ -128,7 +137,7 @@ export class DatabaseSchema {
 
     const guidelinesRef = doc(db, 'waste_guidelines', 'segregation');
     const guidelinesDoc = await getDoc(guidelinesRef);
-    
+
     if (!guidelinesDoc.exists()) {
       await setDoc(guidelinesRef, guidelines);
       console.log('✅ Waste guidelines created');
@@ -197,12 +206,12 @@ export class DatabaseSchema {
     for (const facility of facilities) {
       const facilityRef = doc(db, 'waste_facilities', facility.id);
       const facilityDoc = await getDoc(facilityRef);
-      
+
       if (!facilityDoc.exists()) {
         await setDoc(facilityRef, facility);
       }
     }
-    
+
     console.log('✅ Sample facilities created');
   }
 
@@ -280,13 +289,13 @@ export class DatabaseSchema {
   static validateDocument(collectionName, data) {
     const schemas = this.getCollectionSchemas();
     const schema = schemas[collectionName];
-    
+
     if (!schema) {
       throw new Error(`Unknown collection: ${collectionName}`);
     }
 
     const errors = [];
-    
+
     // Check required fields
     schema.required.forEach(field => {
       if (!data[field]) {
