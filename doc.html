@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Waste Management System API Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; }
+        .sidebar { background: linear-gradient(180deg, #10b981 0%, #059669 100%); height: 100vh; position: fixed; width: 250px; overflow-y: auto; }
+        .sidebar a { color: white; padding: 15px 20px; display: block; text-decoration: none; border-left: 3px solid transparent; transition: all 0.3s; }
+        .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); border-left-color: #fff; }
+        .main-content { margin-left: 250px; padding: 20px; }
+        .endpoint-card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; overflow: hidden; }
+        .endpoint-header { background: #f1f5f9; padding: 15px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .method-badge { padding: 5px 12px; border-radius: 20px; color: white; font-weight: 600; font-size: 0.875rem; }
+        .method-get { background: #3b82f6; }
+        .method-post { background: #10b981; }
+        .method-put { background: #f59e0b; }
+        .method-delete { background: #ef4444; }
+        .code-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; font-family: 'Monaco', monospace; font-size: 0.875rem; overflow-x: auto; }
+        .tab-content { padding-top: 20px; }
+        .nav-tabs .nav-link { border: none; color: #64748b; }
+        .nav-tabs .nav-link.active { color: #10b981; border-bottom: 2px solid #10b981; }
+        .hero { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 60px 0; text-align: center; }
+        .credit { font-size: 0.875rem; color: #d1d5db; margin-top: 40px; }
+        .accordion-button { font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Smart Waste Management System</h1>
+            <p class="lead mb-4">Comprehensive API Documentation for Website & Mobile App</p>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h5 class="mb-3">Base URL: <code class="bg-dark bg-opacity-25 px-2 py-1 rounded">https://waste.qbrain.in/api</code></h5>
+                    <p class="mb-0">All endpoints require JWT authentication for protected routes. Use <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+                </div>
+            </div>
+            <div class="credit mt-5">Developed by <strong>Qbrain Team</strong></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="p-3">
+            <h5 class="text-white mb-4"><i class="fas fa-list me-2"></i>API Sections</h5>
+            <a href="#authentication" class="active"><i class="fas fa-key me-2"></i>Authentication</a>
+            <a href="#citizens"><i class="fas fa-users me-2"></i>Citizens Management</a>
+            <a href="#workers"><i class="fas fa-hard-hat me-2"></i>Workers Management</a>
+            <a href="#green-champions"><i class="fas fa-leaf me-2"></i>Green Champions</a>
+            <a href="#waste-management"><i class="fas fa-trash me-2"></i>Waste Management</a>
+            <a href="#collection-transportation"><i class="fas fa-truck me-2"></i>Collection & Transportation</a>
+            <a href="#facilities"><i class="fas fa-industry me-2"></i>Facilities Management</a>
+            <a href="#monitoring"><i class="fas fa-eye me-2"></i>Monitoring System</a>
+            <a href="#incentives-penalties"><i class="fas fa-coins me-2"></i>Incentives & Penalties</a>
+            <a href="#community"><i class="fas fa-users-cog me-2"></i>Community Engagement</a>
+            <a href="#ulb"><i class="fas fa-building me-2"></i>ULB Management</a>
+            <a href="#shop"><i class="fas fa-shopping-cart me-2"></i>Shop & Marketplace</a>
+            <a href="#analytics"><i class="fas fa-chart-bar me-2"></i>Analytics & Reports</a>
+            <a href="#examples"><i class="fas fa-code me-2"></i>Usage Examples</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Authentication Section -->
+            <section id="authentication" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-key text-success me-2"></i>Authentication</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/auth/login</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>User login. Returns accessToken, refreshToken, user.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/auth/login \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"email":"admin@wastems.com","password":"admin123"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/auth/register</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>User registration (if enabled).</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/auth/register \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"email":"user@example.com","password":"Passw0rd!","name":"User","role":"citizen"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/auth/refresh</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Refresh access token.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/auth/refresh \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"refreshToken":"<refreshToken>"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/auth/me</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin, supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get current user info.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/auth/me \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Citizens Management Section -->
+            <section id="citizens" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-users text-success me-2"></i>Citizens Management</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/citizens/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register new citizen.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/citizens/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"personalInfo":{"name":"Ravi","phone":"+911234567890"},"aadhaar":"123412341234","address":{"city":"Mumbai"}}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/citizens</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get all citizens (paginated).</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/citizens?page=1&pageSize=20 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/citizens/:id</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get citizen by ID.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/citizens/<citizenId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-put">PUT</span>
+                                    <code>/citizens/profile</code>
+                                </div>
+                                <small class="text-muted">admin, citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Update citizen profile.</p>
+                                <div class="code-block">
+                                    curl -X PUT https://waste.qbrain.in/api/citizens/profile \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","address":{"city":"Mumbai","pincode":"400001"}}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/citizens/training/enroll</code>
+                                </div>
+                                <small class="text-muted">admin, citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Enroll in training.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/citizens/training/enroll \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","module":"segregation-basics"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-put">PUT</span>
+                                    <code>/citizens/training/complete</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Complete training module.</p>
+                                <div class="code-block">
+                                    curl -X PUT https://waste.qbrain.in/api/citizens/training/complete \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","module":"segregation-basics","score":92}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workers Management Section -->
+            <section id="workers" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-hard-hat text-success me-2"></i>Workers Management</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/workers/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register waste worker.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/workers/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"personalInfo":{"name":"Sita"},"area":"Ward-5","role":"collector"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/workers/list</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get workers by area/role.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/workers/list?area=Ward-5 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/workers/training/phase/:phase</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Enroll in training phase.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/workers/training/phase/1 \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"workerId":"<wid>"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/workers/safety-gear/status/:workerId</code>
+                                </div>
+                                <small class="text-muted">admin, supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Check safety gear status.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/workers/safety-gear/status/<workerId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Green Champions Section -->
+            <section id="green-champions" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-leaf text-success me-2"></i>Green Champions</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/green-champions/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register green champion.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/green-champions/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"personalInfo":{"name":"Arun"},"areaAssigned":"Ward-3"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/green-champions/area/:areaId</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get champions by area.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/green-champions/area/Ward-3 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/green-champions/monitoring/report</code>
+                                </div>
+                                <small class="text-muted">supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Submit monitoring report.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/green-champions/monitoring/report \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"reporterId":"<id>","area":"Ward-3","issueType":"dumping","description":"Litter"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/green-champions/performance/:championId</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get performance metrics.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/green-champions/performance/<championId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Waste Management Section -->
+            <section id="waste-management" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-trash text-success me-2"></i>Waste Management</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/waste/household/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register household.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/waste/household/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"address":{"city":"Mumbai"},"residentCount":4,"ulbId":"MMC001"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/waste/bulk-generator/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register bulk generator.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/waste/bulk-generator/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"name":"Hotel XYZ","type":"hotel","address":{"city":"Mumbai"},"ulbId":"MMC001"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/waste/segregation/guidelines</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get segregation guidelines.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/waste/segregation/guidelines
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/waste/segregation/violation</code>
+                                </div>
+                                <small class="text-muted">supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Report violation.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/waste/segregation/violation \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","violationType":"non-segregation","evidence":"photo123"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Collection & Transportation Section -->
+            <section id="collection-transportation" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-truck text-success me-2"></i>Collection & Transportation</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/collection/vehicles/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register collection vehicle.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/collection/vehicles/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"vehicleNumber":"MH01AB1234","type":"compactor","capacity":5,"ulbId":"MMC001"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/collection/vehicles/location/:vehicleId</code>
+                                </div>
+                                <small class="text-muted">admin, supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get vehicle location.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/collection/vehicles/location/<vehicleId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/collection/routes/optimize</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Generate optimized routes.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/collection/routes/optimize?areaId=Ward-3 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/collection/pickup/complete</code>
+                                </div>
+                                <small class="text-muted">supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Mark pickup completion.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/collection/pickup/complete \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"householdId":"<hid>","vehicleId":"<vid>","weightKg":12.5}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Facilities Management Section -->
+            <section id="facilities" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-industry text-success me-2"></i>Facilities Management</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/facilities/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register treatment facility.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/facilities/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"id":"FAC010","name":"Recycling Bhandup","type":"recycling","location":{"lat":19.07,"lng":72.87},"capacity":200,"ulbId":"MMC001"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/facilities/capacity/:facilityId</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get facility capacity.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/facilities/capacity/FAC001 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-put">PUT</span>
+                                    <code>/facilities/intake</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Log waste intake.</p>
+                                <div class="code-block">
+                                    curl -X PUT https://waste.qbrain.in/api/facilities/intake \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"facilityId":"FAC001","wasteType":"dry","weightKg":1200}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/facilities/efficiency/:facilityId</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get efficiency metrics.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/facilities/efficiency/FAC001 \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Monitoring System Section -->
+            <section id="monitoring" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-eye text-success me-2"></i>Monitoring System</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/monitoring/photo-upload</code>
+                                </div>
+                                <small class="text-muted">supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Upload geo-tagged photos.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/monitoring/photo-upload \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"reporterId":"<id>","location":{"lat":19.07,"lng":72.87},"photoUrl":"https://...","notes":"illegal dump"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/monitoring/dumping-sites</code>
+                                </div>
+                                <small class="text-muted">admin, supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get reported dumping sites.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/monitoring/dumping-sites \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/monitoring/area-cleanliness/score</code>
+                                </div>
+                                <small class="text-muted">supervisor</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Submit cleanliness score.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/monitoring/area-cleanliness/score \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"area":"Ward-3","score":82}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Incentives & Penalties Section -->
+            <section id="incentives-penalties" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-coins text-success me-2"></i>Incentives & Penalties</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/incentives/bulk-generator/reward</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Process segregation rewards.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/incentives/bulk-generator/reward \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","points":100,"reason":"segregation"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/incentives/citizen/points/:citizenId</code>
+                                </div>
+                                <small class="text-muted">admin, citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get citizen points.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/incentives/citizen/points/<citizenId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/incentives/redeem</code>
+                                </div>
+                                <small class="text-muted">citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Redeem reward points.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/incentives/redeem \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","points":50}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/penalties/impose</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Impose penalty.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/penalties/impose \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","type":"non-segregation","amount":500}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-put">PUT</span>
+                                    <code>/penalties/payment</code>
+                                </div>
+                                <small class="text-muted">admin, citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Process penalty payment.</p>
+                                <div class="code-block">
+                                    curl -X PUT https://waste.qbrain.in/api/penalties/payment \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"penaltyId":"<pid>","status":"paid"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community Engagement Section -->
+            <section id="community" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-users-cog text-success me-2"></i>Community Engagement</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/community/cleaning-day/schedule</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Schedule cleaning event.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/community/cleaning-day/schedule \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"name":"Ward-3 Drive","date":"2025-09-30","area":"Ward-3","organizer":"ULB"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/community/events</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get community events.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/community/events
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/community/awareness/campaign</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Create awareness campaign.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/community/awareness/campaign \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"name":"Recycle Week","startDate":"2025-10-01","area":"Ward-3"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ULB Management Section -->
+            <section id="ulb" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-building text-success me-2"></i>ULB Management</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/ulb/register</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Register ULB.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/ulb/register \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"name":"New ULB","code":"ULB002","state":"MH","district":"Mumbai"}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/ulb/:ulbId/facilities</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get ULB facilities.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/ulb/<ulbId>/facilities \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/ulb/performance/dashboard/:ulbId</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get performance dashboard.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/ulb/performance/dashboard/<ulbId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/ulb/compliance/report/:ulbId</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Generate compliance report.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/ulb/compliance/report/<ulbId> \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shop & Marketplace Section -->
+            <section id="shop" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-shopping-cart text-success me-2"></i>Shop & Marketplace</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/shop/compost-kits</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get available compost kits.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/shop/compost-kits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/shop/compost-kits/order</code>
+                                </div>
+                                <small class="text-muted">citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Order compost kit.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/shop/compost-kits/order \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","quantity":1}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/shop/recycling-centers</code>
+                                </div>
+                                <small class="text-muted">Public</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Get nearby recycling centers.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/shop/recycling-centers
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-post">POST</span>
+                                    <code>/shop/scrap/sell</code>
+                                </div>
+                                <small class="text-muted">citizen</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Post scrap for selling.</p>
+                                <div class="code-block">
+                                    curl -X POST https://waste.qbrain.in/api/shop/scrap/sell \
+                                    -H "Authorization: Bearer <token>" \
+                                    -H "Content-Type: application/json" \
+                                    -d '{"citizenId":"<cid>","scrapType":"plastic","quantity":10}'
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics & Reports Section -->
+            <section id="analytics" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-chart-bar text-success me-2"></i>Analytics & Reports</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/analytics/waste-generation/daily</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Daily waste generation data.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/analytics/waste-generation/daily \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/analytics/waste-treatment/efficiency</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Treatment efficiency metrics.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/analytics/waste-treatment/efficiency \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/analytics/citizen-training/completion</code>
+                                </div>
+                                <small class="text-muted">admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Training completion rates.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/analytics/citizen-training/completion \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                <div>
+                                    <span class="method-badge method-get">GET</span>
+                                    <code>/analytics/segregation/compliance</code>
+                                </div>
+                                <small class="text-muted">admin, ulb_admin</small>
+                            </div>
+                            <div class="p-3">
+                                <p>Segregation compliance data.</p>
+                                <div class="code-block">
+                                    curl https://waste.qbrain.in/api/analytics/segregation/compliance \
+                                    -H "Authorization: Bearer <token>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage Examples Section -->
+            <section id="examples" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-code text-success me-2"></i>Usage Examples</h2>
+                <ul class="nav nav-tabs" id="exampleTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="curl-tab" data-bs-toggle="tab" data-bs-target="#curl" type="button">cURL</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="web-tab" data-bs-toggle="tab" data-bs-target="#web" type="button">Website (JS Fetch)</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="mobile-tab" data-bs-toggle="tab" data-bs-target="#mobile" type="button">Mobile App (Dart HTTP)</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="exampleTabsContent">
+                    <div class="tab-pane fade show active" id="curl" role="tabpanel">
+                        <div class="code-block mt-3">
+                            curl -X POST https://waste.qbrain.in/api/auth/login \
+                            -H "Content-Type: application/json" \
+                            -d '{"email":"admin@wastems.com","password":"admin123"}'
+                        </div>
+                        <div class="code-block mt-3">
+                            curl -X POST https://waste.qbrain.in/api/citizens/register \
+                            -H "Authorization: Bearer <token>" \
+                            -H "Content-Type: application/json" \
+                            -d '{"personalInfo":{"name":"Ravi","phone":"+911234567890"},"aadhaar":"123412341234","address":{"city":"Mumbai"}}'
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="web" role="tabpanel">
+                        <div class="code-block mt-3">
+async function api(path, { method = 'GET', body, token } = {}) {
+  const res = await fetch(`https://waste.qbrain.in/api${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!res.ok) throw await res.json();
+  return res.json();
+}
+
+// Login example
+const { data: { accessToken } } = await api('/auth/login', { method: 'POST', body: { email: 'admin@wastems.com', password: 'admin123' } });
+
+// Get citizens
+const citizens = await api('/citizens?page=1&pageSize=20', { token: accessToken });
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="mobile" role="tabpanel">
+                        <div class="code-block mt-3">
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+final res = await http.post(
+  Uri.parse('https://waste.qbrain.in/api/auth/login'),
+  headers: { 'Content-Type': 'application/json' },
+  body: jsonEncode({ 'email': 'admin@wastems.com', 'password': 'admin123' })
+);
+if (res.statusCode == 200) {
+  final json = jsonDecode(res.body);
+  final token = json['data']['accessToken'];
+  // Use token for next calls
+}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for sidebar links
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth' });
+                document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
